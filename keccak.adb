@@ -227,12 +227,13 @@ package body Keccak is
 	begin
 		for I in 0 .. End_Pos - 1 loop
 			Buffer := Input(Buffer'First + I * 64 .. Buffer'First + (I + 1) * 64 - 1);
-			Sponge(XYCoord(I / 5), XYCoord(I)) := Sponge(XYCoord(I / 5), XYCoord(I)) xor To_Lane(Buffer);
+			Sponge(XYCoord((I / 5) mod 5), XYCoord(I mod 5)) := Sponge(XYCoord((I / 5) mod 5), XYCoord(I mod 5)) xor To_Lane(Buffer);
 		end loop;
 		if End_Size /= 0 then
 			Buffer := (others => 0);
 			Buffer(1 .. End_Size) := Input(Input'Last - End_Size + 1 .. Input'Last);
-			Sponge(XYCoord(End_Pos / 5), XYCoord(End_Pos)) := Sponge(XYCoord(End_Pos / 5), XYCoord(End_Pos)) xor To_Lane(Buffer);
+			Sponge(XYCoord((End_Pos / 5) mod 5), XYCoord(End_Pos mod 5)) := 
+			  Sponge(XYCoord((End_Pos / 5) mod 5), XYCoord(End_Pos mod 5)) xor To_Lane(Buffer);
 		end if;
 	end Suck;
 	
@@ -244,7 +245,7 @@ package body Keccak is
 		End_Pos  : Natural := Amount /   64;
 	begin
 		for I in 0 .. End_Pos - 1 loop
-			Buffer := To_Bitstream(Sponge(XYCoord(I / 5), XYCoord(I)));
+			Buffer := To_Bitstream(Sponge(XYCoord((I / 5) mod 5), XYCoord(I mod 5)));
 			Result(1 + I * 64 .. (I + 1) * 64) := Buffer;
 		end loop;
 		if End_Size > 0 then
