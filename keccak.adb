@@ -59,7 +59,7 @@ package body Keccak is
 			Start_Bit   := 9;
 		end if;
 		
-		BS(1 + Offset .. BS'Last) := Input;
+		BS(1 + Offset .. Offset + Input'Length) := Input;
 		
 		for I in 0 .. Output_Size - 1 loop
 			Temp := BS(Start_Bit + I * 8 .. Start_Bit + 7 + I * 8);
@@ -227,7 +227,8 @@ package body Keccak is
 	begin
 		for I in 0 .. End_Pos - 1 loop
 			Buffer := Input(Buffer'First + I * 64 .. Buffer'First + (I + 1) * 64 - 1);
-			Sponge(XYCoord((I / 5) mod 5), XYCoord(I mod 5)) := Sponge(XYCoord((I / 5) mod 5), XYCoord(I mod 5)) xor To_Lane(Buffer);
+			Sponge(XYCoord((I / 5) mod 5), XYCoord(I mod 5)) := 
+			  Sponge(XYCoord((I / 5) mod 5), XYCoord(I mod 5)) xor To_Lane(Buffer);
 		end loop;
 		if End_Size /= 0 then
 			Buffer := (others => 0);
@@ -249,7 +250,7 @@ package body Keccak is
 			Result(1 + I * 64 .. (I + 1) * 64) := Buffer;
 		end loop;
 		if End_Size > 0 then
-			Buffer := To_bitstream(Sponge(XYCoord(End_Pos / 5), XYCoord(End_Pos)));
+			Buffer := To_bitstream(Sponge(XYCoord((End_Pos / 5) mod 5), XYCoord(End_Pos mod 5)));
 			Result(Result'Last - End_Size + 1 .. Result'Last) := Buffer(1 .. End_Size);
 		end if;
 		return Result;
@@ -296,7 +297,7 @@ package body Keccak is
 			end loop;
 			if End_Size > 0 then
 				Permute(Internal_State);
-				Output(Output_Size - End_Size .. Output'Last) := Spit(End_Size, Internal_State);
+				Output(Output_Size + 1 - End_Size .. Output'Last) := Spit(End_Size, Internal_State);
 			end if;
 			return Output;
 		end if;
