@@ -16,10 +16,6 @@ A command line function to return the keccak_1600 result of a file:
 
   keccakcli.adb
   
-The reference pdf:
-  
-  Keccak-reference-3.0.pdf
-  
 # Reference
 https://keccak.team/files/Keccak-reference-3.0.pdf
   
