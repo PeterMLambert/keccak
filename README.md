@@ -7,7 +7,7 @@ You do not have, nor can you ever acquire the right to use, copy or distribute t
 
 # Files
 
-Package keccak, containing the sponge function:       
+Package Keccak, containing the sponge function:       
 
   keccak.ads  
   keccak.adb
@@ -16,6 +16,11 @@ A command line function to return the keccak_1600 result of a file:
 
   keccakcli.adb
   
+Package Oaep, which gives an example of using the Keccack sponge function for OAEP (the padding used in RSA).
+
+  oaep.ads
+  oaep.adb
+
 # Reference
 https://keccak.team/files/Keccak-reference-3.0.pdf
   
