@@ -291,17 +291,29 @@ package body Keccak is
 			return Output;
 		else
 			Output(1 .. Rate) := Spit(Rate, Internal_State);
+			
 			for I in 1 .. (Output_Size / Rate) - 1 loop
 				Permute(Internal_State);
 				Output(1 + I * Rate .. (I + 1) * Rate) := Spit(Rate, Internal_State);
 			end loop;
+			
 			if End_Size > 0 then
 				Permute(Internal_State);
 				Output(Output_Size + 1 - End_Size .. Output'Last) := Spit(End_Size, Internal_State);
 			end if;
+			
 			return Output;
 		end if;
 		
+	end Keccak_1600;
+	
+	-- Wrapper function starting with string
+	function Keccak_1600(Input       : in String; 
+	                     Output_size : in Positive;
+		                 Rate        : in Rates := 1024
+	                    ) return Bitstream is
+	begin
+		return Keccak_1600(To_Bitsream(Input), Output_Size, Rate);
 	end Keccak_1600;
 		
 end Keccak;

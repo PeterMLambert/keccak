@@ -11,7 +11,7 @@ package Keccak is
 	type Bits is private;
 	type Bitstream is array(Integer range <>) of Bits;
 	
-	subtype Rates is Positive range 1 .. 1600;
+	subtype  Rates is Positive range 1 .. 1600;
 	
 	function Keccak_1600
 	   (Input       : in Bitstream; 
@@ -19,24 +19,24 @@ package Keccak is
 		Rate        : in Rates := 1024)
 	   return Bitstream;
 	
-	function To_String(Input : Bitstream) return String;
-	function To_Bitstream(Input : String) return Bitstream;
+	function To_String   (Input : Bitstream) return String;
+	function To_Bitstream(Input : String)    return Bitstream;
 	
 private
 	
-	type    Bits    is mod 2;
+	type     Bits    is mod 2;
 	
-	type    Lane    is mod 2**64;
-	type    XYCoord is mod 5;
-	subtype XCoord  is XYCoord;
-	subtype YCoord  is XYCoord;
+	type     Lane    is mod 2**64;
+	type     XYCoord is mod 5;
+	subtype  XCoord  is XYCoord;
+	subtype  YCoord  is XYCoord;
 	
-	type Plane is array(XCoord) of Lane;
-	type State is array(XCoord, YCoord) of Lane;
+	type     Plane is array(XCoord) of Lane;
+	type     State is array(XCoord, YCoord) of Lane;
 	
-	function To_Bitstream(Input : in Lane) return Bitstream;
-	function To_Lane(Input : in Bitstream) return Lane;
-	function To_Char(Input : in Bitstream) return Character;
+	function To_Bitstream(Input : in Lane)      return Bitstream;
+	function To_Lane     (Input : in Bitstream) return Lane;
+	function To_Char     (Input : in Bitstream) return Character;
 	
 	function Pad_101
 	   (Input :      in Bitstream;
