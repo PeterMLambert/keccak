@@ -155,14 +155,16 @@ package body Keccak is
 		Ar : State;
 		X  : XCoord;
 		Y  : YCoord;
+		Scratch : XYCoord;
 	begin
 		Ar(0, 0) := A(0, 0);
 		X := 1;
 		Y := 0;
 		for T in 0 .. 23 loop
 			Ar(X, Y) := Rotate_Left(A(X, Y), ((T + 1) * (T + 2) / 2) mod 64);
+			Scratch := X;
 			X := Y;
-			Y := 2 * X + 3 * Y;
+			Y := 2 * Scratch + 3 * Y;
 		end loop;
 		return Ar;
 	end rho;
