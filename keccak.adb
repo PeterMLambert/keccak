@@ -130,13 +130,9 @@ package body Keccak is
 	end chi;
 	
 	function iota(Round_Const : in Lane; A : in State) return State is
-		Ar : State;
+		Ar : State := A;
 	begin
-		for Y in YCoord loop
-			for X in XCoord loop
-				Ar(X, Y) := A(X, Y) xor Round_Const;
-			end loop;
-		end loop;
+		Ar(0, 0) := A(0, 0) xor Round_Const;
 		return Ar;
 	end iota;
 	
@@ -145,7 +141,7 @@ package body Keccak is
 	begin
 		for X in XCoord loop
 			for Y in YCoord loop
-				Ar(X, Y) := A(Y, 2 * X + 3 * Y);
+				Ar(Y, 2 * X + 3 * Y) := A(X, Y);
 			end loop;
 		end loop;
 		return Ar;
