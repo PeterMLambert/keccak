@@ -9,7 +9,7 @@ package body Oaep is
 	function Random_String(in N : Natural) return String is
 		Result : String(1 .. N);
 	begin
-		for I in String'Range loop
+		for I in Result'Range loop
 			Result(I) := Random(G);
 		end loop;
 		return Result;
